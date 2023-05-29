@@ -1,36 +1,41 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SignInUpPage.aspx.cs" Inherits="WebApplication2.WebForm1" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SignInUpPage.aspx.cs" Inherits="WebApplication2.WebForm1" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>SignInUpPage</title>
     <%--<link rel="stylesheet" href="StyleSheet1.css" />--%>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="StyleSheet2.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="~/lib/query/dist/jquery.js"></script>
+    <script src="~/lib/query/dist/jquery.min.js"></script>
     <script type="text/javascript">
-
+        $(document).ready(function () {
+            
+            $("#closed").click(function () {
+                $("#closed").hide();
+                $("#password").attr("type", "password");
+            });
+        });
+        
         function addClass() {
             const sign_up_btn = document.querySelector("#Button3");
             const container = document.querySelector(".container");
-
             sign_up_btn.addEventListener('click', () => {
                 container.classList.add('sign-up-mode');
                 document.getElementById("form1").reset();
-
             });
         }
-
         function removeClass() {
             const sign_up_btn = document.querySelector("#Button2");
             const container = document.querySelector(".container");
-
             sign_up_btn.addEventListener('click', () => {
                 container.classList.remove('sign-up-mode');
                 document.getElementById("form1").reset();
-
             });
         }
-
         function validation() {
             var img = document.forms["form1"]["Fileupload1"];
             var validExt = [".jpg", ".png", ".bmp", ".gif"];
@@ -65,19 +70,16 @@
             }
             document.forms[0].appendchild(confirm_value);
         }
-
         function getImagePreview(input) {
             // var result = validation()
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-
                 reader.onload = function (e) {
                     //if (result == true) {
                     $('#Image1').attr('src', e.target.result)
                         .width(100)
                         .height(70);
                 }
-
                 //}
                 reader.readAsDataURL(input.files[0]);
             }
@@ -94,7 +96,6 @@
                 }
             }
         }
-
     </script>
 
     <style type="text/css">
@@ -115,8 +116,7 @@
         <div class="formcontainer">
             <form id="form1" runat="server" class="signinup-form">
 
-                        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-
+                <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
                 <div class="panels-container">
                     <div class="panel left-panel">
@@ -156,7 +156,7 @@
                                 <asp:Image ID="imgname" runat="server" CssClass="img" ImageUrl="https://dentalevdashboard.medusindhvb.com/DevD/img/usericon.png" />
                             </td>
                             <td>
-                                <asp:TextBox ID="Textname" runat="server" CssClass="textbox" placeholder="Username"></asp:TextBox>
+                                <asp:TextBox ID="Textname" runat="server" CssClass="textbox" placeholder="Username(email)"></asp:TextBox>
                             </td>
                         </tr>
                         <tr class="inputfield">
@@ -164,7 +164,9 @@
                                 <asp:Image ID="imgpass" runat="server" CssClass="img" ImageUrl="https://cdn2.iconfinder.com/data/icons/app-types-in-grey/512/lock_512pxGREY.png" />
                             </td>
                             <td>
-                                <asp:TextBox ID="Textpass" runat="server" CssClass="textbox" placeholder="Password"></asp:TextBox>
+                                <asp:TextBox ID="Textpass" runat="server" CssClass="textbox" placeholder="Password" TextMode="Password"></asp:TextBox>
+<%--                                <i id="open" class="fa-solid fa-eye " style="float:right;margin-top:-30px;margin-right: -80px;cursor:pointer;" ></i>--%>
+                                <i id="closed" class="fa fa-eye-slash " style="float:right;margin-top:-30px;margin-right: -80px;display:none;cursor:pointer;" ></i>
                             </td>
                         </tr>
                         <tr>
@@ -203,6 +205,7 @@
                                 <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="TextBox1" Display="Dynamic" ErrorMessage="Invalid name" ForeColor="Red" ValidationExpression="[a-zA-Z]*$" Font-Size="10">Invalid name</asp:RegularExpressionValidator>
                             </td>
                         </tr>
+
                         <tr class="inputfield11">
                             <td class="calenderimg">
                                 <asp:ImageButton ID="ImageButton2" CssClass="calenderimg" runat="server" ImageUrl="https://th.bing.com/th/id/R.f81e214105d61276be3d772037669498?rik=wZlR1S66H8L4uw&riu=http%3a%2f%2ficons.iconarchive.com%2ficons%2fpaomedia%2fsmall-n-flat%2f512%2fcalendar-icon.png&ehk=V7%2bBUpaKm7g0qHpRT7raWGlRTf%2bi2Sw5CwurGpCURBA%3d&risl=&pid=ImgRaw&r=0" ImageAlign="AbsBottom" Width="48px" CausesValidation="False" OnClick="ImageButton1_Click" OnClientClick="ImageButton1_Click;return false;" />
@@ -217,7 +220,7 @@
                                     <WeekendDayStyle BackColor="#CCCCFF" />
                                 </asp:Calendar>
                             </td>
-                           
+
 
                             <td class="auto-style2">
                                 <asp:TextBox ID="TextBox2" runat="server" CssClass="textboxreg" placeholder="dd/mm/yyyy" MaxLength="10">
@@ -264,9 +267,9 @@
                             <td>
                                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                                     <ContentTemplate>
-                                <asp:DropDownList ID="DropDownList2" runat="server" CssClass="textboxreg" AutoPostBack="True" OnSelectedIndexChanged="DropDownList2_SelectedIndexChanged">
-                                </asp:DropDownList>
-                                        </ContentTemplate>
+                                        <asp:DropDownList ID="DropDownList2" runat="server" CssClass="textboxreg" AutoPostBack="True" OnSelectedIndexChanged="DropDownList2_SelectedIndexChanged">
+                                        </asp:DropDownList>
+                                    </ContentTemplate>
                                 </asp:UpdatePanel>
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator11" runat="server" Font-Size="10" ControlToValidate="DropDownList2" Display="Dynamic" ErrorMessage="State Missing" ForeColor="Red" InitialValue="0" SetFocusOnError="True">State Missing</asp:RequiredFieldValidator>
                             </td>
@@ -309,6 +312,8 @@
                                 <br />
                                 <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" Font-Size="10" ControlToValidate="TextBox4" ErrorMessage="Email missing" ForeColor="Red" SetFocusOnError="True" Display="Dynamic">email missing</asp:RequiredFieldValidator>
                                 <asp:RegularExpressionValidator runat="server" ControlToValidate="TextBox4" Font-Size="10" Display="Dynamic" ErrorMessage="Invalid email" ForeColor="Red" ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">Invalid email</asp:RegularExpressionValidator>
+                                <asp:Label ID="Label6" runat="server" EnableTheming="False" ForeColor="#990000" Font-Size='10' Display="dynamic"></asp:Label>
+
                             </td>
                         </tr>
 
