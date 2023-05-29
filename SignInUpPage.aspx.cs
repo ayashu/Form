@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -21,6 +21,9 @@ using System.Data.SQLite;
 using System.Drawing.Printing;
 using System.Data.Common;
 using System.ComponentModel;
+using System.Security.Cryptography;
+using System.Text;
+using System.Collections.ObjectModel;
 
 namespace WebApplication2
 {
@@ -30,7 +33,7 @@ namespace WebApplication2
         protected void Page_Load(object sender, EventArgs e)
         {
             ValidationSettings.UnobtrusiveValidationMode = UnobtrusiveValidationMode.None;
-            String mycon = "Data source=DESKTOP-EL3JA64\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
+            String mycon = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
 
             if (!IsPostBack)
             {
@@ -50,35 +53,34 @@ namespace WebApplication2
                 SqlDataAdapter sqlDa = new SqlDataAdapter("Select * from register", mycon);
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
-                //Regist.DataSource = dtbl;
-                //Regist.DataBind();
+                
                 sql.Close();
             }
 
+            if (Session["passgen"] != null && !string.IsNullOrEmpty(Session["passgen"].ToString()))
+            {
+                Label5.Text = Session["passgen"].ToString();
+            }
+            
+            else
+            {
+                Label5.Text = "";
+            }
+
         }
-        
 
-        //private void SignInClicked(object sender, EventArgs e)
-        //{
-        //    container.Attributes.Remove("class");
-        //}
 
-        //private void SignUpClicked(object sender, EventArgs e)
-        //{
-        //    container.Attributes.Add("class", "sign-up-mode");
-        //}
         private void LoadImage()
         {
             // string cs = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            String cs = "Data source=DESKTOP-EL3JA64\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
+            String cs = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
 
             using (SqlConnection con = new SqlConnection(cs))
             {
                 SqlCommand cmd = new SqlCommand("Select * from register", con);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
-                //Regist.DataSource = rdr;
-                //Regist.DataBind();
+                
             }
         }
         protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
@@ -102,6 +104,7 @@ namespace WebApplication2
         protected void Button1_Click(object sender, EventArgs e)
         {
             //submit button click
+            Session["email"]=TextBox4.Text;
             Calendar1.Visible = false;
             Label1.Text = "";
             if (SubmitAccount() == true)
@@ -111,6 +114,7 @@ namespace WebApplication2
                 //Regist.Visible = true;
                 clearAllFields();
                 LoadImage();
+                Response.Redirect("PasswordGeneration.aspx");
 
             }
             else
@@ -141,12 +145,12 @@ namespace WebApplication2
             if (RadioButton1.Checked || RadioButton2.Checked || RadioButton3.Checked)
             {
                 args.IsValid = true;
-                //return true;
+                
             }
             else
             {
                 args.IsValid = false;
-                //return false;
+                
             }
         }
         bool Gender()
@@ -160,7 +164,7 @@ namespace WebApplication2
                 return false;
             }
         }
-        bool SubmitAccount()
+            bool SubmitAccount()
         {
             string gender = string.Empty;
             if (RadioButton1.Checked)
@@ -175,26 +179,28 @@ namespace WebApplication2
             {
                 gender = "others";
             }
+          
             Boolean check = bot1.Validate(textbox8.Text);
             if (check != true)
             {
                 Label4.Text = "Invalid Captcha";
             }
+            
             else
             {
                 Label4.Text = "";
             }
-            if (Gender() == true && btnUpload_Click() == true && DuplicateRecord() == true && check == true)
+            
+
+            if (Gender() == true && btnUpload_Click() == true && DuplicateRecord2() == true && DuplicateRecord() == true && check == true )
 
             {
+                Label6.Text = "";
                 Label3.Text = "";
                 byte[] pic = FileUpload1.FileBytes;
 
-                //FileUpload1.PostedFile.InputStream.Read(pic, 0, length);
-                //int i = 1;
-                String mycon = "Data source=DESKTOP-EL3JA64\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
-                //String mycon = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-                //string constr = ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString;
+              
+                String mycon = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
                 SqlConnection con = new SqlConnection(mycon);
                 SqlCommand cmd1 = new SqlCommand("insert into register" + "(aadhar,name,dob,gender,course,mobile,email,image,state,district)  values(@aadhar,@name,@dob,@gender,@course,@mobile,@email,@image,@state,@district)", con);
                 con.Open();
@@ -208,21 +214,10 @@ namespace WebApplication2
                 cmd1.Parameters.AddWithValue("@image", pic);
                 cmd1.Parameters.AddWithValue("@state", DropDownList2.Text);
                 cmd1.Parameters.AddWithValue("@district", DropDownList3.Text);
-                //cmd1.CommandText = query;
                 cmd1.Connection = con;
                 cmd1.ExecuteNonQuery();
                 con.Close();
-                /*try
-                {
-                    cmd1.ExecuteNonQuery();
-                    Label2.Visible = true;
-                    Label2.Text = "Image Uploaded Sucessfully";
-                    con.Close();//after Sucessfully uploaded image
-                }
-                catch
-                {
-                }
-                */
+                
                 return true;
             }
             else
@@ -232,7 +227,7 @@ namespace WebApplication2
         }
         bool DuplicateRecord()
         {
-            String mycon = "Data source=DESKTOP-EL3JA64\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
+            String mycon = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
             SqlConnection con = new SqlConnection(mycon);
             con.Open();
             SqlCommand cmd1 = new SqlCommand("select aadhar from register where aadhar='" + TextBox5.Text + "'", con);
@@ -247,6 +242,27 @@ namespace WebApplication2
             else
             {
                 Label3.Text = "";
+                return true;
+            }
+        }
+
+        bool DuplicateRecord2()
+        {
+            String mycon = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
+            SqlConnection con = new SqlConnection(mycon);
+            con.Open();
+            SqlCommand cmd1 = new SqlCommand("select email from register where email='" + TextBox4.Text + "'", con);
+            SqlDataAdapter sd = new SqlDataAdapter(cmd1);
+            DataTable dt = new DataTable();
+            sd.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                Label6.Text = "The email already exist";
+                return false;
+            }
+            else
+            {
+                Label6.Text = "";
                 return true;
             }
         }
@@ -287,8 +303,9 @@ namespace WebApplication2
         }
         void bindState()
         {
+
             //bind data of state to dropdownlist
-            String mycon = "Data source=DESKTOP-EL3JA64\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
+            String mycon = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
             SqlConnection con = new SqlConnection(mycon);
             String query = "select * from state";
             SqlDataAdapter sda = new SqlDataAdapter(query, con);
@@ -302,13 +319,13 @@ namespace WebApplication2
             //at top sets ---select state----
             ListItem selectItem = new ListItem("----Select State----", "Select State");
             selectItem.Selected = true;
-            DropDownList2.Items.Insert(0, selectItem);
+            DropDownList3.Items.Insert(0, selectItem);
         }
 
         void bindDistrict(int state_id)
         {
             //bind data of district to dropdownlist
-            String mycon = "Data source=DESKTOP-EL3JA64\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
+            String mycon = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
             SqlConnection con = new SqlConnection(mycon);
             String query = "select * from district where s_id = @state_id";
             SqlDataAdapter sda = new SqlDataAdapter(query, con);
@@ -321,7 +338,7 @@ namespace WebApplication2
             DropDownList3.DataBind();
 
             //at top sets ---select state----
-            ListItem selectItem = new ListItem("----Select District----", "Select District");
+            ListItem selectItem = new ListItem("-Select District-", "Select District");
             selectItem.Selected = true;
             DropDownList3.Items.Insert(0, selectItem);
         }
@@ -399,36 +416,55 @@ namespace WebApplication2
         //        Button4.Visible = true;
         //    }
         //}
-
+        public static string GetShaData(string data)
+        {
+            // Create a new SHA1 object using the SHA1.Create() method.
+            //Convert the input data to a byte array using the Encoding.Default.GetBytes() method.
+            //Compute the hash of the data using the ComputeHash() method of the SHA1 object.
+            //Convert the hash to a hexadecimal string using a StringBuilder.
+            //Return the hexadecimal string representation of the hash.
+            SHA1 sha = SHA1.Create();
+            Byte[] hasData = sha.ComputeHash(Encoding.Default.GetBytes(data));
+            StringBuilder returnvalue = new StringBuilder();
+            int i;
+            for (i = 0; i < hasData.Length; i++)
+            {
+                returnvalue.Append(hasData[i].ToString());
+            }
+            return returnvalue.ToString();
+        }
         protected void LoginButton_Click(object sender, EventArgs e)
         {
+            Session["useremail"] = Textname.Text;
             if (Textname.Text != "" && Textpass.Text != "")
             {
-                String mycon = "Data source=DESKTOP-EL3JA64\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
+                String mycon = "Data source=DESKTOP-G4DVJQG\\SQLEXPRESS; Initial Catalog=Data;Integrated Security=true";
                 SqlConnection con = new SqlConnection(mycon);
                 con.Open();
-                SqlCommand cmd1 = new SqlCommand("select * from LoginCredentials where username='" + Textname.Text + "' AND password='" + Textpass.Text + "'", con);
+                
+                SqlCommand cmd1 = new SqlCommand("select * from LoginTable where email='" + Textname.Text + "' AND password='" + GetShaData(Textpass.Text) + "'", con);
+
                 SqlDataAdapter sd = new SqlDataAdapter(cmd1);
                 DataTable dt = new DataTable();
                 sd.Fill(dt);
                 Label5.Text = "";
                 if (dt.Rows.Count > 0)
-                {
-                    Response.Redirect("Login Page.aspx");
+                { 
+                    Response.Redirect("LoginPage.aspx");
                     Label5.Text = "";
                     clearAllFields();
                 }
                 else
                 {
                     Label5.Text = "The username or password are incorrect.Try Again.";
-                    
+
                 }
             }
             else
             {
                 Label5.Text = "Username and password not entered";
             }
-               
+
         }
 
         protected void Button3_Click(object sender, EventArgs e)
@@ -440,8 +476,6 @@ namespace WebApplication2
         {
             clearAllFields();
         }
-
-
 
         //protected void Button3_Click(object sender, EventArgs e)
         //{
@@ -684,4 +718,3 @@ namespace WebApplication2
     }
 
 }
-
