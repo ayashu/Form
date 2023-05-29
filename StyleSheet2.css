@@ -1,5 +1,4 @@
-﻿/*This is for the whole web page*/
-
+﻿ /*This is for the whole web page*/
 body {
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -56,7 +55,6 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     opacity: 0;
-    
 }
 
 .container::before {
@@ -189,6 +187,7 @@ body {
     padding: 0 0.4rem;
     position: relative;
 }
+
 .inputfield1 {
     max-width: 380px;
     width: 100%;
@@ -201,9 +200,10 @@ body {
     padding: 0 0.4rem;
     position: relative;
 }
+
 .inputfield11 {
-   float:left;
-   max-width:200px;
+    float: left;
+    max-width: 200px;
     width: 100%;
     height: 55px;
     background-color: #f0f0f0;
@@ -214,8 +214,9 @@ body {
     padding: 0 0.4rem;
     position: relative;
 }
+
 .inputfield12 {
-    float:inline-start;
+    float: inline-start;
     max-width: 200px;
     width: 100%;
     height: 55px;
@@ -223,11 +224,11 @@ body {
     margin: 10px 0;
     border-radius: 55px;
     display: grid;
-    
     padding: 0 0.4rem;
     position: relative;
 }
-.inputfield14{
+
+.inputfield14 {
     float: left;
     max-width: 300px;
     width: 100%;
@@ -240,6 +241,7 @@ body {
     padding: 0 0.4rem;
     position: relative;
 }
+
 .inputfield15 {
     float: inline-start;
     max-width: 200px;
@@ -248,10 +250,10 @@ body {
     margin: 10px 0;
     border-radius: 55px;
     display: grid;
-   
     padding: 0 0.4rem;
     position: relative;
 }
+
 .inputfield13 {
     float: right;
     max-width: 200px;
@@ -263,6 +265,7 @@ body {
     padding-left: 12px;
     position: relative;
 }
+
 .signuptable {
     overflow: auto;
 }
@@ -286,6 +289,7 @@ body {
     font-size: 1.2rem;
     color: #333;
 }
+
 .textboxreg {
     margin: 12px;
     background: none;
@@ -421,7 +425,6 @@ body {
 .container.sign-up-mode .signin-signin {
     z-index: 1;
     opacity: 0;
-    
 }
 
 .container.sign-up-mode .signup-signup {
