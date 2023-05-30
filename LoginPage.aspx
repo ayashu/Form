@@ -79,18 +79,20 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet nisi id ipsum fringilla, vitae consectetur quam interdum. Nullam bibendum quam in varius ultrices. Vestibulum condimentum, magna et interdum laoreet, sapien velit scelerisque risus, in aliquet nibh nunc in lorem. 
             Mauris elementum, nunc nec aliquam condimentum, mauris nisi tristique dui, non fermentum justo erat vitae nunc. 
             <br />
-                <br />
 
+                <br />
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet nisi id ipsum fringilla, vitae consectetur quam interdum. Nullam bibendum quam in varius ultrices. Vestibulum condimentum, magna et interdum laoreet, sapien velit scelerisque risus, in aliquet nibh nunc in lorem. 
             Mauris elementum, nunc nec aliquam condimentum, mauris nisi tristique dui, non fermentum justo erat vitae nunc. Sed efficitur elit nec lacinia convallis. Fusce feugiat elit a neque fringilla, non fringilla sapien ultricies. 
             Integer finibus, turpis non egestas vulputate, nisl tortor aliquet ex, et placerat dolor purus in massa. Donec venenatis nisl vel massa maximus, non fermentum nibh ultrices. Proin semper, tortor ac euismod scelerisque, felis lectus dapibus urna, ac posuere est nunc id ipsum. 
             Fusce id fringilla lorem, eu gravida ligula. Integer eu metus ipsum. Donec et enim luctus, interdum libero sed, laoreet sapien.
             <br />
+
                 <br />
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquet nisi id ipsum fringilla, vitae consectetur quam interdum. Nullam bibendum quam in varius ultrices. Vestibulum condimentum, magna et interdum laoreet, sapien velit scelerisque risus, in aliquet nibh nunc in lorem. 
             Mauris elementum, nunc nec aliquam condimentum, mauris nisi tristique dui, non fermentum justo erat vitae nunc. Sed efficitur elit nec lacinia convallis. Fusce feugiat elit a neque fringilla, non fringilla sapien ultricies. 
             Integer finibus, turpis non egestas vulputate, nisl tortor aliquet ex, et placerat dolor purus in massa. Donec venenatis nisl vel massa maximus, non fermentum nibh ultrices. Proin semper, tortor ac euismod scelerisque, felis lectus dapibus urna, ac posuere est nunc id ipsum. 
             Fusce id fringilla lorem, eu gravida ligula. 
+
             </div>
         </div>
 
@@ -114,6 +116,9 @@
                             </td>
                             <td>
                                 <asp:TextBox ID="TextBox1" runat="server" CssClass="textboxreg" placeholder="Username"></asp:TextBox>
+                                
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1" Display="Dynamic" ErrorMessage="Name missing" ForeColor="Red" SetFocusOnError="True" Font-Size="10">Name missing</asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TextBox1" Display="Dynamic" ErrorMessage="Invalid name" ForeColor="Red" ValidationExpression="[a-zA-Z]*$" Font-Size="10">Invalid name</asp:RegularExpressionValidator>
                             </td>
 
                             <td>DOB
@@ -131,6 +136,10 @@
                                     <TodayDayStyle BackColor="#99CCCC" ForeColor="White" />
                                     <WeekendDayStyle BackColor="#CCCCFF" />
                                 </asp:Calendar>
+
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" Font-Size="10" ControlToValidate="TextBox2" Display="Dynamic" ErrorMessage="Dob missing" ForeColor="Red" SetFocusOnError="True">Dob missing</asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="TextBox2" Font-Size="10" Display="Dynamic" ErrorMessage="Invalid dob" ForeColor="Red" ValidationExpression="^(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2])\/((19|20)\d\d))$" >Invalid dob</asp:RegularExpressionValidator>
+
                             </td>
                         </tr>
 
@@ -169,8 +178,10 @@
                                         </asp:DropDownList>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
-
+                                
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" Font-Size="10" ControlToValidate="DropDownList3" Display="Dynamic" ErrorMessage="State Missing" ForeColor="Red" InitialValue="0" SetFocusOnError="True">State Missing</asp:RequiredFieldValidator>
                             </td>
+                            
 
                             <td>District
                             </td>
@@ -182,6 +193,8 @@
                                         </asp:DropDownList>
                                     </ContentTemplate>
                                 </asp:UpdatePanel>
+                                
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" Font-Size="10" ControlToValidate="DropDownList4" Display="Dynamic" ErrorMessage="District Missing" ForeColor="Red" InitialValue="0" SetFocusOnError="True">District Missing</asp:RequiredFieldValidator>
                             </td>
                         </tr>
 
@@ -190,12 +203,16 @@
                             </td>
                             <td>
                                 <asp:TextBox ID="TextBox7" runat="server" CssClass="textboxreg" placeholder="Mobile number"></asp:TextBox>
+                                
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator5" runat="server" Font-Size="10" ControlToValidate="TextBox7" Display="Dynamic" ErrorMessage="Mobile no missing" ForeColor="Red" SetFocusOnError="True">Mobile no missing</asp:RequiredFieldValidator>
+                                <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" Font-Size="10" ControlToValidate="TextBox7" Display="Dynamic" ErrorMessage="Invalid mobile number" ForeColor="Red" SetFocusOnError="True" ValidationExpression="^([7-9]{1})([0-9]{9})$">Invalid mobile number</asp:RegularExpressionValidator>
+                            
                             </td>
 
                             <td>Aadhar No
                             </td>
                             <td>
-                                <asp:TextBox ID="TextBox8" runat="server" CssClass="textboxreg" placeholder="Email"></asp:TextBox>
+                                <asp:TextBox ID="TextBox8" runat="server" CssClass="textboxreg" placeholder="Email" ></asp:TextBox>
                             </td>
                         </tr>
 
@@ -207,10 +224,10 @@
                 </div>
             </div>
             <div class="ProfileButtons">
-                <asp:Button ID="Button1" runat="server" Text="Modify" CssClass="Profilebtn" OnClick="Button1_Click" />
-                <asp:Button ID="Button2" runat="server" Text="Delete" CssClass="Profilebtn" OnClick="Button2_Click" />
-                <asp:Button ID="Button3" runat="server" Text="Save" CssClass="Profilebtn" OnClick="Button3_Click" />
-                <asp:Button ID="Button4" runat="server" Text="Cancel" CssClass="Profilebtn" OnClick="Button4_Click" />
+                <asp:Button ID="Button1" runat="server" Text="Modify" CssClass="Profilebtn" OnClick="Button1_Click" CausesValidation="false"/>
+                <asp:Button ID="Button2" runat="server" Text="Delete" CssClass="Profilebtn" OnClick="Button2_Click" CausesValidation="false"/>
+                <asp:Button ID="Button3" runat="server" Text="Save" CssClass="Profilebtn" OnClick="Button3_Click" CausesValidation="true"/>
+                <asp:Button ID="Button4" runat="server" Text="Cancel" CssClass="Profilebtn" OnClick="Button4_Click" CausesValidation="false"/>
 
             </div>
 
