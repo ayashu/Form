@@ -155,6 +155,7 @@ namespace WebApplication1
             cmd1.Parameters.AddWithValue("@Email", email);
             con.Close();
             Response.Redirect("SignInUpPage.aspx");
+            
         }
 
         protected void Button3_Click(object sender, EventArgs e)
@@ -318,6 +319,7 @@ namespace WebApplication1
             Response.Redirect("SignInUpPage.aspx");
         }
 
+
         public bool btnUpload_Click()
         {
             if (FileUpload1.HasFile == true)
@@ -417,7 +419,7 @@ namespace WebApplication1
         {
             try
             {
-                int state_id = Convert.ToInt32(DropDownList2.SelectedValue);
+                int state_id = Convert.ToInt32(DropDownList3.SelectedValue);
                 bindDistrict(state_id);
                 UpdatePanel2.Update();
                 UpdatePanel1.Update();
